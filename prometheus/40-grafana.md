@@ -12,4 +12,4 @@ sudo /bin/systemctl start grafana-server
 
 Now we should go to http://your-server:3000 and change password. Default is `admin:admin`.
 
-Then we can import dashboard "Node exporter full" by number `1860`. Adjust it to your needs.
+Then we can import dashboard "Node exporter full" by number `1860` or `11074`. Adjust it to your needs.

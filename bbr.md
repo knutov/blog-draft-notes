@@ -131,3 +131,16 @@ But it looks like BBRv2 has some issues and is not ready for production:
 
 - from march 2020: https://roov.org/2020/03/bbr-bbrplus-bbr2/ (use google translate )
 - from may 2022: https://groups.google.com/g/bbr-dev/c/xmley7VkeoE/m/W4lEyyW_AAAJ
+
+## Further network optimisation
+
+Theese all about `net.ipv4.tcp_notsent_lowat` and small kernel patch.
+
+- https://blog.cloudflare.com/http-2-prioritization-with-nginx/
+- https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency/
+
+Although results are promising in this links it's better to do carefully own tests on specific production setup.
+
+Small test with lowering `tcp_notsent_lowat` to 16k shows bitrate is lowering in iperf3 tests, so it may be not optimal for generic load, like backups, etc.
+
+It is possible to control `tcp_notsent_lowat` for only nginx with patches - https://github.com/nginx-modules/ngx_http_tls_dyn_size

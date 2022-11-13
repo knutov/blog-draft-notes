@@ -1,5 +1,7 @@
 # CrowdSec
 
+## Install on Ubuntu
+
 ```bash
 curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
 
@@ -18,7 +20,22 @@ cscli completion bash | sudo tee /etc/bash_completion.d/cscli
 crowdsec -dsn file:///var/log/auth.log -type syslog  -no-api
 ```
 
-Example commands:
+## Install on Centos 7
+
+```bash
+curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.rpm.sh | sudo bash
+yum install -y crowdsec crowdsec-firewall-bouncer-iptables
+cscli scenarios install crowdsecurity/ban-defcon-drop_range
+systemctl reload crowdsec
+
+yum install -y bash-completion bash-completion-extras
+mkdir -p /etc/bash_completion.d/
+cscli completion bash | sudo tee /etc/bash_completion.d/cscli
+
+locate bash_completion.sh
+source /etc/profile.d/bash_completion.sh
+```
+## Example commands:
 
 ```bash
 cscli alerts list
@@ -85,7 +102,8 @@ statics:
       expression: "any(['Authentication failure', 'password mismatch', 'Password mismatch', 'auth failed', 'unknown user'], {evt.Parsed.dovecot_login_message contains #}) ? 'auth_failed' : ''"
 EOF
 
-# adjust timers
+# adjust timers, optional.
+# Sometimes defauls are better here, "capacity: 1" can be not good for some cases
 cat << 'EOF' > /etc/crowdsec/hub/scenarios/crowdsecurity/dovecot-spam.yaml
 #contribution by @ltsich
 type: leaky
@@ -102,7 +120,7 @@ labels:
  remediation: true
 EOF
 
-# add following dovecot log
+# add dovecot log to follow
 cat << 'EOF' >> /etc/crowdsec/acquis.yaml
 filenames:
   - /var/log/dovecot.log
@@ -110,7 +128,6 @@ labels:
   type: syslog
 ---
 EOF
-
 
 service crowdsec restart
 

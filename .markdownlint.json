@@ -1,0 +1,7 @@
+{
+	"default": true,
+	"MD013": false,
+	"MD007": false,
+	"no-hard-tabs": false,
+	"no-bare-urls": false
+}

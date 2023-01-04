@@ -131,9 +131,12 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable prometheus
+systemctl enable prometheus --now
+systemctl status prometheus
 systemctl restart prometheus
 ```
+
+> TODO: add  --web.external-url=http://server :9090 for correct source link for alertmanager
 
 ## Check status
 
@@ -150,3 +153,13 @@ curl -X POST http://localhost:9090/-/reload -u "admin:my-sec-pass" # replace you
 ## Details about double relable
 
 https://stackoverflow.com/questions/49896956/relabel-instance-to-hostname-in-prometheus
+
+### Restore Prometheus config from memory dump
+
+in case you broke/rewrite your current config and do not have backup:
+
+```bash
+curl http://localhost:9090/api/v1/status/config -u 'admin:***' | jq -r '.data.yaml | . ' > /etc/prometheus/prometheus.yml
+```
+
+Do not forget manually add password if you are using password in config. It's better to use `password_file` of course.

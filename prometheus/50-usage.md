@@ -67,6 +67,12 @@ curl -X POST http://localhost:9090/api/v1/query -u "admin:***" -d 'query=node_ne
 
 ```bash
 curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance="some.server:1234"}'
+
+# delete alerts series
+curl -g -XPOST 'http://prometheus:9090/api/v2/admin/tsdb/delete_series?match[]=ALERTS'
+
+# delete data from disk
+curl -XPOST http://prometheus:9090/api/v2/admin/tsdb/clean_tombstones
 ```
 
 + see https://www.shellhacks.com/prometheus-delete-time-series-metrics/

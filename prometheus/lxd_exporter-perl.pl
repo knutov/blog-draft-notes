@@ -21,3 +21,5 @@ app->start;
 # for debug:
 # you can run it in `screen` with
 # perl lxd_exporter-perl.pl daemon -m production -l http://*:9472
+# you can add to /etc/rc.local something like
+# cd /etc/prometheus && screen -dm bash -c '/usr/bin/perl lxd_exporter-perl.pl daemon -m production -l http://*:9472'

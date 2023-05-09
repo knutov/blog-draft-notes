@@ -46,15 +46,16 @@ StartLimitBurst=5
 User=prometheus
 Group=prometheus
 Type=simple
-ExecStart=/usr/local/bin/node_exporter --web.config=/etc/prometheus/node_exporter.web-config.yml --web.listen-address=":9100"
+ExecStart=/usr/local/bin/node_exporter --web.config.file=/etc/prometheus/node_exporter.web-config.yml --web.listen-address=":9100"
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable node_exporter
-systemctl restart node_exporter
+systemctl enable node_exporter --now
+systemctl status node_exporter
+# systemctl restart node_exporter
 ```
 
 ## Check status
@@ -67,7 +68,7 @@ systemctl status node_exporter.service
 
 ```bash
 # Check if it runs
-/usr/local/bin/node_exporter --web.config=/etc/prometheus/node_exporter.web-config.yml --web.listen-address=":9100"
+/usr/local/bin/node_exporter --web.config.file=/etc/prometheus/node_exporter.web-config.yml --web.listen-address=":9100"
 
 # and check auth on the same server (replace password to actual)
 curl -v -u "prom:pass" http://localhost:9100/

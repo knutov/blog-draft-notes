@@ -1,7 +1,11 @@
 # setup Prometheus with basic auth
 
 ```bash
+# optional for ZFS
+zfs create tank/alertmanager
+zfs set mountpoint=/var/lib/alertmanager tank/alertmanager
 
+# install Alertmanager
 d=$(mktemp -d) && cd $d
 
 curl -s https://api.github.com/repos/prometheus/alertmanager/releases/latest | jq -r '.assets[].browser_download_url | select(endswith(".linux-amd64.tar.gz"))' | wget -qi -
@@ -69,14 +73,15 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable alertmanager
-systemctl restart alertmanager
+systemctl enable alertmanager --now
+systemctl status alertmanager
+# systemctl restart alertmanager
 ```
 
 ## Check status
 
 ```bash
-amtool check-config alertmanager.yml
+amtool check-config /etc/prometheus/alertmanager.yml
 systemctl status alertmanager.service
 ```
 

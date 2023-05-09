@@ -1,7 +1,11 @@
 # setup Prometheus with basic auth
 
 ```bash
+# optional for ZFS
+zfs create tank/prometheus
+zfs set mountpoint=/var/lib/prometheus tank/prometheus
 
+# install Prometheus
 d=$(mktemp -d) && cd $d
 
 curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
@@ -19,7 +23,8 @@ mv consoles/ console_libraries/ /etc/prometheus/
 rm -fr ${d:?}
 
 # Create data folder. Config folders are already created during installation of node_exporter
-mkdir /var/lib/prometheus
+useradd prometheus
+mkdir -p /var/lib/prometheus
 sudo chown -R prometheus:prometheus /var/lib/prometheus/
 
 # generate password file

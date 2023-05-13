@@ -15,6 +15,7 @@ useradd -rs /bin/false prometheus
 We will use go app to generate bcrypt password instead of `htpasswd` - it takes 32M on disk to install. Go from snap takes 100M but we usually need fresh version of `go` to compile modern tools (ans ).
 
 ```bash
+apt install -y snapd
 snap install go --classic
 go install github.com/shoenig/bcrypt-tool@latest
 cp ~/go/bin/bcrypt-tool /usr/local/bin/

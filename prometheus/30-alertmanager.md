@@ -82,7 +82,7 @@ systemctl status alertmanager
 
 ```bash
 amtool check-config /etc/prometheus/alertmanager.yml
-systemctl status alertmanager.service
+systemctl status alertmanager
 ```
 
 ## Test alert
